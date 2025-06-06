@@ -266,7 +266,7 @@ def threshold_check(string):
 loewdin_last = False            # for detecting the last occurence of look_for_loewdin
 look_for_loewdin = 'LOEWDIN REDUCED ORBITAL POPULATIONS PER MO'
 is_empty_line = False           # empty line bool in orbital table creation
-emptyline = re.compile('^\s*$') # empty line detect in orbital table creation
+emptyline = re.compile(r'^\s*$') # empty line detect in orbital table creation
 emptyline_count = 0             # empty line count in orbital table creation
 raworbitals = []                # raworbitals reset
 first_time = False              # for data frame initialization
@@ -399,7 +399,7 @@ if old_csv == 0:
                         if i==0:
                             os=pd.DataFrame(ob)                # initialize DataFrame for os
                         else:
-                            os=os.append(ob,ignore_index=True) # final table from block
+                            os = pd.concat([os, ob], ignore_index=True) # final table from block
                             
                         # delete rows that will be replaced by the next insertion
                         ob=ob.drop(columns=['orb_num','orb_spin','orb_en','orb_occ','orb_comp'])
@@ -414,7 +414,7 @@ if old_csv == 0:
                      first_time=True       # but only once
                      
                 else:
-                    oall=oall.append(os,ignore_index=True)  # combine single block tables to a big table
+                    oall = pd.concat([oall, os], ignore_index=True)  # combine single block tables to a big table
                 raworbitals=[]                              # reset list of lines
                 
             else:
@@ -455,10 +455,10 @@ homo_num = homo_num.loc[1,'orb_num']
 # get the numbers of orbitals to process (from argparse) 
 # get the constraints (from argparse) 
 
-orbrange = re.compile('\d+')            # regex for orbital range input
-orbrange_homo = re.compile('h(\d+)')    # regex for HOMO+-n range input
-elm = re.compile('[A-Z][a-z]{0,1}')     # regex for elements: C, N, Fe, ...
-atm = re.compile('[\d]+')               # regex for atoms: 0, 1, 2, ...
+orbrange = re.compile(r'\d+')            # regex for orbital range input
+orbrange_homo = re.compile(r'h(\d+)')    # regex for HOMO+-n range input
+elm = re.compile(r'[A-Z][a-z]{0,1}')     # regex for elements: C, N, Fe, ...
+atm = re.compile(r'[\d]+')               # regex for atoms: 0, 1, 2, ...
 
 if args.orbitals == 'all':   
     orb_start = 0
